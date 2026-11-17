@@ -1,0 +1,6 @@
+.next
+node_modules
+docs/design-reference
+supabase/.temp
+package-lock.json
+src/content/services.ts

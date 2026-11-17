@@ -1,46 +1,76 @@
-# Getting Started with Create React App
+# +Propre — plus-propre.fr (v2)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Website of **+Propre**, professional cleaning in Strasbourg. Next.js 16 (App Router, Cache Components) + Supabase,
+deployed on Vercel. The full specification lives in [`docs/`](docs/README.md); working rules for contributors and AI
+agents are in [`CLAUDE.md`](CLAUDE.md).
 
-## Available Scripts
+## What's inside
 
-In the project directory, you can run:
+- **Public site** (French, server-rendered): home (animated, from `docs/design-reference`), 9 service pages + hub,
+  Réalisations (before/after), À propos, Actualités (blog), quote funnel `/devis`, legal pages, cookie consent.
+- **Admin** `/admin` (only the +Propre team has accounts — visitors never sign in):
+  - **Devis**: read-only inbox of quote requests as cards; open one to call / e-mail / SMS / WhatsApp the client.
+    No confirm/cancel workflow — the only actions are "mark unread", CSV export and RGPD deletion.
+  - **Réalisations**: before/after from the phone camera (compressed to WebP in the browser, EXIF/GPS removed).
+  - **Articles**: rich-text editor, gallery, SEO panel, draft / schedule / publish, preview, autosave.
+  - **Avis**: reviews copied from Google/Facebook/…, average & count computed automatically.
+  - **Configuration**: confirm/edit key figures (+120 sites, 24h, 7j/7, 100 %), minimum contract length (FAQ),
+    opening hours (footer, À propos, Google structured data), Google review link, legal form & publication director.
 
-### `npm start`
+## Getting started
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```bash
+npm install
+cp .env.example .env.local   # fill in the Supabase values (see below)
+npm run dev                  # http://localhost:3000
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Without Supabase variables the public site still renders (reviews and Réalisations fall back to the seed data in
+`src/content/fallback.ts`); the quote form and the admin need a Supabase project.
 
-### `npm test`
+| Script | Purpose |
+|---|---|
+| `npm run dev` / `build` / `start` | Next.js |
+| `npm run typecheck` · `lint` · `test` | TypeScript, ESLint, Vitest (unit) |
+| `npm run test:db` | Applies migrations + seed to a scratch **local Postgres** and runs the RLS test suite (no Docker needed) |
+| `npm run test:e2e` | Playwright + axe (builds must be running: `npm run build && npm run start`) |
+| `npm run format` | Prettier |
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Supabase (CLI)
 
-### `npm run build`
+The schema, RLS policies, storage bucket and retention job are versioned in `supabase/migrations`; seed data in
+`supabase/seed.sql`. Never edit the hosted schema from the dashboard.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Hosted project: **Plus Propre** (`fxfwrkeyzswytdvwxbzy`, Paris). This checkout is already linked.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+supabase login
+supabase link --project-ref fxfwrkeyzswytdvwxbzy
+supabase db push --include-seed            # applies migrations + seed to the hosted project
+supabase gen types typescript --linked > src/lib/supabase/database.types.ts
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Auth settings (sign-ups disabled, 10-character passwords, site URL `https://www.plus-propre.fr`, redirect URLs
+`http://localhost:3000/**` and `https://www.plus-propre.fr/**`) are versioned in `supabase/config.toml` and applied with
+`supabase config push`.
 
-### `npm run eject`
+`SUPABASE_SECRET_KEY` must hold a server key: the new `sb_secret_…` key (Dashboard → Project Settings → API Keys —
+the CLI only shows it masked) or the legacy `service_role` key.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**Adding an admin**: Authentication → Users → *Invite user* (or *Add user*), then promote the account (new users are
+`viewer` and cannot access anything until promoted):
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+supabase db query --linked "update public.profiles set role = 'admin', full_name = 'Prénom Nom' where id = (select id from auth.users where email = 'contact@plus-propre.fr');"
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Deployment
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+See [`docs/10-git-and-deployment.md`](docs/10-git-and-deployment.md): Vercel framework preset **Next.js**, env vars
+from `.env.example`, region `cdg1`. Work happens on `develop`; merging into `main` deploys production.
 
-## Learn More
+## Images
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Real job photos live in `public/images/realisations/` (also seeded as Réalisations). Illustrative photos supplied by
+the client are in `public/images/photos/`. `scripts/process-images.mjs` re-encodes source photos to WebP and strips
+metadata.
