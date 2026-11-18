@@ -4,7 +4,7 @@ import { antiSpamSchema, quoteSchema, step1Schema, step3Schema } from './quote'
 const valid = {
   type: 'cabinets-medicaux',
   client: 'pro',
-  surface: '100-300',
+  surface: '250',
   frequency: 'hebdomadaire',
   postalCode: '67000',
   city: 'Strasbourg',
@@ -18,8 +18,15 @@ describe('quote schema', () => {
   it('accepts a complete request', () => {
     expect(quoteSchema.safeParse(valid).success).toBe(true)
   })
-  it('treats an unselected optional radio (null) as empty', () => {
-    expect(quoteSchema.safeParse({ ...valid, callbackTime: null, acces: false }).success).toBe(true)
+  it('requires the surface in m²', () => {
+    expect(quoteSchema.safeParse({ ...valid, surface: '' }).success).toBe(false)
+    expect(quoteSchema.safeParse({ ...valid, surface: 'grand' }).success).toBe(false)
+    expect(quoteSchema.safeParse({ ...valid, surface: '100-300' }).success).toBe(false)
+  })
+  it('accepts an optional window count', () => {
+    expect(quoteSchema.safeParse({ ...valid, fenetres: '' }).success).toBe(true)
+    expect(quoteSchema.safeParse({ ...valid, fenetres: '12' }).success).toBe(true)
+    expect(quoteSchema.safeParse({ ...valid, fenetres: '-1' }).success).toBe(false)
   })
   it('requires consent', () => {
     const r = quoteSchema.safeParse({ ...valid, consent: false })

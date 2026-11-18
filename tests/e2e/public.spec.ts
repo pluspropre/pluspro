@@ -41,7 +41,7 @@ test.describe('without JavaScript', () => {
 })
 
 test('quote funnel is pre-filled from a service page', async ({ page }) => {
-  await page.goto('/devis?type=fin-de-bail&surface=moins-100')
+  await page.goto('/devis?type=fin-de-bail&surface=80')
   await expect(page.getByText('Étape 2 sur 3')).toBeVisible()
 })
 

@@ -8,16 +8,7 @@ import { track } from '@vercel/analytics'
 import { services } from '@/content/services'
 import { site } from '@/content/site'
 import { publicEnv } from '@/lib/env'
-import {
-  accessOptions,
-  callbackOptions,
-  frequencyOptions,
-  ONE_OFF_TYPES,
-  quoteSchema,
-  surfaceOptions,
-  typeValues,
-  type QuoteInput,
-} from '@/lib/validation/quote'
+import { frequencyOptions, ONE_OFF_TYPES, quoteSchema, typeValues, type QuoteInput } from '@/lib/validation/quote'
 import { cn } from '@/lib/utils'
 import { submitQuote } from '@/app/(site)/devis/actions'
 import { Button } from '@/components/ui/Button'
@@ -28,8 +19,8 @@ type FormValues = Partial<Omit<QuoteInput, 'consent'>> & { consent?: boolean }
 
 const stepFields: Path<FormValues>[][] = [
   ['type', 'client'],
-  ['surface', 'surfaceExact', 'frequency', 'postalCode', 'city', 'sanitaires', 'cuisines', 'bureaux', 'vitrage', 'startDate'],
-  ['fullName', 'company', 'jobTitle', 'email', 'phone', 'callbackTime', 'address', 'message', 'consent'],
+  ['surface', 'frequency', 'postalCode', 'city', 'sanitaires', 'cuisines', 'bureaux', 'fenetres', 'startDate'],
+  ['fullName', 'company', 'jobTitle', 'email', 'phone', 'address', 'message', 'consent'],
 ]
 const stepTitles = ['Votre besoin', 'Vos locaux', 'Vos coordonnées']
 
@@ -37,7 +28,6 @@ const fieldLabels: Record<string, string> = {
   type: 'Type de prestation',
   client: 'Professionnel ou particulier',
   surface: 'Surface',
-  surfaceExact: 'Surface exacte',
   frequency: 'Fréquence',
   postalCode: 'Code postal',
   city: 'Ville',
@@ -45,11 +35,11 @@ const fieldLabels: Record<string, string> = {
   email: 'E-mail',
   phone: 'Téléphone',
   message: 'Message',
-  callbackTime: 'Moment de rappel',
   company: 'Société',
   sanitaires: 'Sanitaires',
   cuisines: 'Cuisines',
   bureaux: 'Bureaux',
+  fenetres: 'Fenêtres et baies vitrées',
   consent: 'Consentement',
 }
 
@@ -76,8 +66,8 @@ export function QuoteWizardWithParams() {
   const prefill: FormValues = {}
   const type = params.get('type')
   if (type && typeValues.includes(type)) prefill.type = type
-  const surface = params.get('surface')
-  if (surface && surfaceOptions.some((o) => o.value === surface)) prefill.surface = surface
+  const surface = Number(params.get('surface'))
+  if (Number.isInteger(surface) && surface > 0) prefill.surface = surface
   const freq = params.get('frequence')
   if (freq && frequencyOptions.some((o) => o.value === freq)) prefill.frequency = freq
   return <QuoteWizard prefill={prefill} />
@@ -109,7 +99,7 @@ export function QuoteWizard({ prefill = {} }: { prefill?: FormValues }) {
   } = useForm<FormValues>({
     resolver: zodResolver(quoteSchema) as never,
     mode: 'onTouched',
-    defaultValues: { client: 'pro', acces: [], ...prefill },
+    defaultValues: { client: 'pro', ...prefill },
     shouldFocusError: false,
   })
 
@@ -125,7 +115,7 @@ export function QuoteWizard({ prefill = {} }: { prefill?: FormValues }) {
       const saved = sessionStorage.getItem(STORAGE_KEY)
       if (saved) {
         const { _step, ...values } = JSON.parse(saved) as FormValues & { _step?: number }
-        reset({ client: 'pro', acces: [], ...values, ...prefill, consent: false })
+        reset({ client: 'pro', ...values, ...prefill, consent: false })
         start = Math.min(2, Math.max(0, _step ?? 0))
       }
     } catch {
@@ -290,7 +280,6 @@ export function QuoteWizard({ prefill = {} }: { prefill?: FormValues }) {
                 <input type="radio" value={s.slug} {...register('type')} />
                 <span>
                   <strong>{s.name}</strong>
-                  <span>{s.group === 'secteur' ? 'Contrat régulier' : 'Intervention ponctuelle'}</span>
                 </span>
               </label>
             ))}
@@ -322,25 +311,13 @@ export function QuoteWizard({ prefill = {} }: { prefill?: FormValues }) {
 
       {/* STEP 2 */}
       <div hidden={step !== 1} className="mt-8 grid gap-8">
-        <fieldset>
-          <legend className="form-label">Surface approximative</legend>
-          <div className="flex flex-wrap gap-3" id="f-surface">
-            {surfaceOptions.map((o) => (
-              <label key={o.value} className="choice choice--pill">
-                <input type="radio" value={o.value} {...register('surface')} />
-                {o.label}
-              </label>
-            ))}
-          </div>
+        <div className="max-w-xs">
+          <label className="form-label" htmlFor="f-surface">
+            Surface (m²)
+          </label>
+          <input id="f-surface" className="input" inputMode="numeric" placeholder="ex. 250" aria-required {...register('surface')} {...a('surface')} />
           <Err id="surface-err" msg={errors.surface?.message} />
-          <div className="mt-4 max-w-xs">
-            <label className="form-label" htmlFor="f-surfaceExact">
-              Surface exacte (m², facultatif)
-            </label>
-            <input id="f-surfaceExact" className="input" inputMode="numeric" {...register('surfaceExact')} {...a('surfaceExact')} />
-            <Err id="surfaceExact-err" msg={errors.surfaceExact?.message} />
-          </div>
-        </fieldset>
+        </div>
         {oneOff ? (
           <input type="hidden" value="ponctuelle" {...register('frequency')} />
         ) : (
@@ -375,12 +352,13 @@ export function QuoteWizard({ prefill = {} }: { prefill?: FormValues }) {
         </div>
         <details className="rounded-2xl border border-line p-5">
           <summary className="cursor-pointer font-semibold text-ink">Préciser vos locaux (facultatif)</summary>
-          <div className="mt-5 grid gap-4 sm:grid-cols-3">
+          <div className="mt-5 grid gap-4 sm:grid-cols-2">
             {(
               [
                 ['sanitaires', 'Nombre de sanitaires'],
                 ['cuisines', 'Cuisines / kitchenettes'],
                 ['bureaux', 'Bureaux / salles'],
+                ['fenetres', 'Nombre de fenêtres et baies vitrées'],
               ] as const
             ).map(([name, label]) => (
               <div key={name}>
@@ -392,31 +370,12 @@ export function QuoteWizard({ prefill = {} }: { prefill?: FormValues }) {
               </div>
             ))}
           </div>
-          <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="form-label" htmlFor="f-vitrage">
-                Surface vitrée
-              </label>
-              <input id="f-vitrage" className="input" placeholder="ex. vitrine de 6 m, baies vitrées…" {...register('vitrage')} />
-            </div>
-            <div>
-              <label className="form-label" htmlFor="f-startDate">
-                Date de démarrage souhaitée
-              </label>
-              <input id="f-startDate" type="date" className="input" {...register('startDate')} />
-            </div>
+          <div className="mt-4 sm:max-w-[calc(50%-8px)]">
+            <label className="form-label" htmlFor="f-startDate">
+              Date de démarrage souhaitée
+            </label>
+            <input id="f-startDate" type="date" className="input" {...register('startDate')} />
           </div>
-          <fieldset className="mt-4">
-            <legend className="form-label">Accès</legend>
-            <div className="flex flex-wrap gap-3">
-              {accessOptions.map((o) => (
-                <label key={o.value} className="choice choice--pill">
-                  <input type="checkbox" value={o.value} {...register('acces')} />
-                  {o.label}
-                </label>
-              ))}
-            </div>
-          </fieldset>
         </details>
       </div>
 
@@ -461,17 +420,6 @@ export function QuoteWizard({ prefill = {} }: { prefill?: FormValues }) {
             <Err id="phone-err" msg={errors.phone?.message} />
           </div>
         </div>
-        <fieldset>
-          <legend className="form-label">Moment préféré pour être rappelé</legend>
-          <div className="flex flex-wrap gap-3">
-            {callbackOptions.map((o) => (
-              <label key={o.value} className="choice choice--pill">
-                <input type="radio" value={o.value} {...register('callbackTime')} />
-                {o.label}
-              </label>
-            ))}
-          </div>
-        </fieldset>
         <div>
           <label className="form-label" htmlFor="f-address">
             Adresse des locaux <span className="font-normal text-label">(facultatif)</span>

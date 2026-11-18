@@ -5,7 +5,7 @@ import type { FaqItem } from './types'
 
 const quote: FaqItem = {
   q: 'Comment obtenir un devis ?',
-  a: 'Remplissez le formulaire de la page Devis en quelques minutes ou appelez-nous au 07 65 55 11 11. Indiquez le type de locaux, la surface approximative et la fréquence souhaitée : vous recevez une proposition détaillée sous 24h. Le devis est gratuit et sans engagement. Pour un contrat régulier, nous convenons d’abord d’une visite sur place afin de chiffrer au plus juste.',
+  a: 'Remplissez le formulaire de la page Devis en quelques minutes ou appelez-nous au 07 65 55 11 11. Indiquez le type de locaux, la surface en m² et la fréquence souhaitée : vous recevez une proposition détaillée sous 24h. Le devis est gratuit et sans engagement. Pour un contrat régulier, nous convenons d’abord d’une visite sur place afin de chiffrer au plus juste.',
 }
 
 const visit: FaqItem = {
