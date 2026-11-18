@@ -7,6 +7,7 @@ import { faqLd, graph, webPageLd } from '@/lib/seo/jsonld'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { PageMotion } from '@/components/motion/PageMotion'
 import { BeforeAfterShowcase } from '@/components/sections/BeforeAfter'
+import { Commitments } from '@/components/sections/Commitments'
 import { FaqSection } from '@/components/sections/FaqSection'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { Hero } from '@/components/sections/Hero'
@@ -40,6 +41,7 @@ export default async function HomePage() {
       <QuoteBar />
       <ServicesGrid />
       <WhyStack />
+      <Commitments />
       <Stats settings={settings} />
       {featured.length > 0 ? (
         <section className="sec" aria-labelledby="t-ba">

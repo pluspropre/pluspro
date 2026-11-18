@@ -9,6 +9,7 @@ import { breadcrumbLd, faqLd, graph, webPageLd } from '@/lib/seo/jsonld'
 import { ConsentGate } from '@/components/layout/ConsentGate'
 import { PageMotion } from '@/components/motion/PageMotion'
 import { JsonLd } from '@/components/seo/JsonLd'
+import { Commitments } from '@/components/sections/Commitments'
 import { FaqSection } from '@/components/sections/FaqSection'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { PageHero } from '@/components/sections/PageHero'
@@ -131,6 +132,8 @@ export default async function AboutPage() {
       </section>
 
       <Stats settings={settings} />
+
+      <Commitments />
 
       <section className="sec" aria-labelledby="t-zone">
         <div className="wrap grid items-start gap-12 lg:grid-cols-2">

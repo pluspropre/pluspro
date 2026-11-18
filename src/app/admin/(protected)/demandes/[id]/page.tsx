@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
-import { e164, leadCallback, leadFrequency, leadService, leadSurface } from '@/lib/admin/leads'
-import { accessOptions, labelOf } from '@/lib/validation/quote'
+import { e164, leadCallback, leadFrequency, leadService, leadSurface, legacyLabels } from '@/lib/admin/leads'
+import { labelOf } from '@/lib/validation/quote'
 import { formatDateTime } from '@/lib/utils'
 import { AdminHeader, Badge, btn, Panel } from '@/components/admin/ui'
 import { LeadButtons, MarkReadOnOpen } from './LeadActions'
@@ -12,7 +12,8 @@ export const instant = false
 
 export const metadata: Metadata = { title: 'Demande de devis' }
 
-type Details = { sanitaires?: number; cuisines?: number; bureaux?: number; vitrage?: string; acces?: string[]; startDate?: string; address?: string }
+// vitrage / acces: fields of older requests, no longer asked
+type Details = { sanitaires?: number; cuisines?: number; bureaux?: number; fenetres?: number; vitrage?: string; acces?: string[]; startDate?: string; address?: string }
 
 function Row({ label, value }: { label: string; value?: React.ReactNode }) {
   if (value === undefined || value === null || value === '') return null
@@ -59,8 +60,9 @@ export default async function LeadPage({ params }: PageProps<'/admin/demandes/[i
               <Row label="Sanitaires" value={d.sanitaires} />
               <Row label="Cuisines / kitchenettes" value={d.cuisines} />
               <Row label="Bureaux / salles" value={d.bureaux} />
+              <Row label="Fenêtres et baies vitrées" value={d.fenetres} />
               <Row label="Surface vitrée" value={d.vitrage} />
-              <Row label="Accès" value={d.acces?.map((a) => labelOf(accessOptions, a)).join(', ')} />
+              <Row label="Accès" value={d.acces?.map((a) => labelOf(legacyLabels.access, a)).join(', ')} />
               <Row label="Démarrage souhaité" value={d.startDate} />
             </dl>
           </Panel>

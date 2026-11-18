@@ -3,7 +3,7 @@ import { Resend } from 'resend'
 import { getService } from '@/content/services'
 import { site } from '@/content/site'
 import { serverEnv } from '@/lib/env.server'
-import { accessOptions, callbackOptions, frequencyOptions, labelOf, surfaceOptions, type QuoteInput } from '@/lib/validation/quote'
+import { frequencyOptions, labelOf, type QuoteInput } from '@/lib/validation/quote'
 
 const esc = (v: unknown) =>
   String(v ?? '')
@@ -16,22 +16,20 @@ export function quoteRows(q: QuoteInput): [string, string][] {
   const rows: [string, string | undefined][] = [
     ['Prestation', getService(q.type)?.name ?? 'Autre'],
     ['Client', q.client === 'pro' ? 'Professionnel' : 'Particulier'],
-    ['Surface', `${labelOf(surfaceOptions, q.surface)}${q.surfaceExact ? ` (${q.surfaceExact} m²)` : ''}`],
+    ['Surface', `${q.surface} m²`],
     ['Fréquence', labelOf(frequencyOptions, q.frequency)],
     ['Localisation', `${q.postalCode} ${q.city}`],
     ['Adresse', q.address],
     ['Sanitaires', q.sanitaires ? String(q.sanitaires) : undefined],
     ['Cuisines / kitchenettes', q.cuisines ? String(q.cuisines) : undefined],
     ['Bureaux / salles', q.bureaux ? String(q.bureaux) : undefined],
-    ['Surface vitrée', q.vitrage],
-    ['Accès', q.acces?.map((a) => labelOf(accessOptions, a)).join(', ')],
+    ['Fenêtres et baies vitrées', q.fenetres ? String(q.fenetres) : undefined],
     ['Démarrage souhaité', q.startDate],
     ['Nom', q.fullName],
     ['Société', q.company],
     ['Fonction', q.jobTitle],
     ['E-mail', q.email],
     ['Téléphone', q.phone],
-    ['Rappel préféré', q.callbackTime ? labelOf(callbackOptions, q.callbackTime) : undefined],
     ['Message', q.message],
   ]
   return rows.filter((r): r is [string, string] => Boolean(r[1]))

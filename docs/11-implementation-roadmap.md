@@ -35,7 +35,7 @@ Tick boxes as tasks are completed (commit the updated file with the work). If a 
 - [x] Footer (columns, socials, legal links, "Gestion des cookies", watermark + product SVGs)
 - [x] Motion infra: `gsap.ts` registration, `SmoothScroll` (Lenis + ScrollTrigger sync), `Reveal`, `CountUp`, `Magnetic`, `BubbleCursor`, `Preloader`; reduced-motion & touch guards
 - [x] Root layout: `lang="fr"`, metadata defaults (`07` §3), site-wide JSON-LD (`07` §4), Vercel Analytics + Speed Insights
-- [x] `not-found.tsx` (404), `error.tsx`, `manifest.ts`, `icon.svg`, `apple-icon.png`, default `opengraph-image.tsx`
+- [x] `not-found.tsx` (404), `error.tsx`, `manifest.ts`, `icon.png`, `apple-icon.png`, default `opengraph-image.tsx`
 
 **Accept when**: header/footer match the mockup at 1440/1024/768/375; keyboard nav of menus works; reduced motion disables Lenis & effects; JS-disabled page is fully readable.
 

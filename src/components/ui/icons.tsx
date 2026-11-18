@@ -75,6 +75,32 @@ export const ShieldIcon = (p: IconProps) => (
     <path d="M9 12l2 2 4-4" />
   </svg>
 )
+export const SparkleIcon = (p: IconProps) => (
+  <svg viewBox="0 0 24 24" {...base} {...p}>
+    <path d="M10 4.5c.6 3.6 2.4 5.4 6 6-3.6.6-5.4 2.4-6 6-.6-3.6-2.4-5.4-6-6 3.6-.6 5.4-2.4 6-6Z" />
+    <circle cx="18" cy="5.5" r="1.8" />
+    <path d="M18 17.5v3M16.5 19h3" />
+  </svg>
+)
+export const ReceiptIcon = (p: IconProps) => (
+  <svg viewBox="0 0 24 24" {...base} {...p}>
+    <path d="M6 3h12v18l-2-1.4-2 1.4-2-1.4-2 1.4-2-1.4L6 21z" />
+    <path d="M9.5 8h5M9.5 12h5M9.5 16h3" />
+  </svg>
+)
+export const UsersIcon = (p: IconProps) => (
+  <svg viewBox="0 0 24 24" {...base} {...p}>
+    <circle cx="9" cy="8" r="3.5" />
+    <path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5" />
+    <path d="M15.5 4.8a3.5 3.5 0 0 1 0 6.4M17.5 14.8c2.2.6 3.6 2.4 4 5.2" />
+  </svg>
+)
+export const PhoneCallIcon = (p: IconProps) => (
+  <svg viewBox="0 0 24 24" {...base} {...p}>
+    <path d="M5 4h3.5l1.5 4-2.2 1.4a11 11 0 0 0 6.8 6.8L16 14l4 1.5V19a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2" />
+    <path d="M14.5 3.5a6.5 6.5 0 0 1 6 6M14.5 7a3 3 0 0 1 2.5 2.5" />
+  </svg>
+)
 export const SwapIcon = (p: IconProps) => (
   <svg viewBox="0 0 24 24" {...base} {...p}>
     <path d="M9 7 4 12l5 5M15 7l5 5-5 5" />

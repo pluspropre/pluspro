@@ -1,7 +1,7 @@
 import { services } from '@/content/services'
 import { ChevronDown } from '@/components/ui/icons'
 import { Button } from '@/components/ui/Button'
-import { frequencyOptions, surfaceOptions } from '@/lib/validation/quote'
+import { frequencyOptions } from '@/lib/validation/quote'
 
 /** Plain GET form to /devis: works without JS and pre-fills the funnel (docs/05 §4.8). */
 export function QuoteBar() {
@@ -25,15 +25,8 @@ export function QuoteBar() {
         <ChevronDown />
       </div>
       <div className="field">
-        <label htmlFor="q-surf">Surface</label>
-        <select id="q-surf" name="surface" defaultValue="100-300">
-          {surfaceOptions.map((o) => (
-            <option key={o.value} value={o.value}>
-              {o.label}
-            </option>
-          ))}
-        </select>
-        <ChevronDown />
+        <label htmlFor="q-surf">Surface (m²)</label>
+        <input id="q-surf" name="surface" inputMode="numeric" pattern="[0-9]*" placeholder="ex. 250" autoComplete="off" />
       </div>
       <div className="field">
         <label htmlFor="q-freq">Fréquence</label>

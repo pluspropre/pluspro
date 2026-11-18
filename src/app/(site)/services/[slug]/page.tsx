@@ -11,6 +11,7 @@ import { mediaUrl } from '@/lib/images'
 import { PageMotion } from '@/components/motion/PageMotion'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { BeforeAfterShowcase } from '@/components/sections/BeforeAfter'
+import { Commitments } from '@/components/sections/Commitments'
 import { FaqSection } from '@/components/sections/FaqSection'
 import { FinalCta } from '@/components/sections/FinalCta'
 import { LatestPosts } from '@/components/sections/LatestPosts'
@@ -116,6 +117,8 @@ export default async function ServicePage({ params }: PageProps<'/services/[slug
           </ul>
         </div>
       </section>
+
+      {s.group === 'secteur' ? <Commitments /> : null}
 
       <Process
         steps={s.method}
