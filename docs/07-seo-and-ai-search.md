@@ -24,7 +24,7 @@ clearly identified local business.**
 | Internal links | Header mega-menu, footer service links, breadcrumbs, related services/posts, contextual links in copy |
 | Structured data | JSON-LD per §4, validated with Google Rich Results Test + validator.schema.org |
 | Social previews | Open Graph + Twitter card on every page, generated OG images (§3) |
-| Manifest/icons | `app/manifest.ts` (name "+Propre", theme `#0B1B3F`, background `#FFFFFF`), `icon.svg`, `apple-icon.png` 180 px |
+| Manifest/icons | `app/manifest.ts` (name "+Propre", theme `#0B1B3F`, background `#FFFFFF`), `icon.png` 192 px, `apple-icon.png` 180 px |
 
 ## 2. Redirects
 

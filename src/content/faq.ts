@@ -10,7 +10,7 @@ const quote: FaqItem = {
 
 const visit: FaqItem = {
   q: 'Faites-vous une visite sur place ?',
-  a: 'Oui. Avant toute proposition pour un contrat régulier, nous passons dans vos locaux, à Strasbourg ou dans l’Eurométropole, pour mesurer les surfaces, repérer les zones sensibles et caler les horaires d’intervention. Cette visite nous permet de chiffrer au plus juste. Vous recevez ensuite votre devis détaillé sous 24h. Pour une prestation ponctuelle simple, une description et quelques photos suffisent souvent.',
+  a: 'Oui. Avant toute proposition pour un contrat régulier, nous nous déplaçons dans vos locaux, à Strasbourg ou dans l’Eurométropole, pour mesurer les surfaces, repérer les zones sensibles et définir les horaires d’intervention. Cette visite nous permet d’évaluer précisément vos besoins et d’établir un devis adapté à vos locaux sous 24h. Pour une prestation ponctuelle simple, une description accompagnée de quelques photos peut suffire.',
 }
 
 const products: FaqItem = {

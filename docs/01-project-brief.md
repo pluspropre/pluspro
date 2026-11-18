@@ -107,4 +107,5 @@ These are needed from the client. Until received, use the marked placeholder and
 | 12/11/2026 | All work happens on branch `develop`; merging `develop` → `main` triggers the production deploy on Vercel |
 | 12/11/2026 | Legal name **+PROPRE**, SIREN 992 924 944. Legal form, publication director, key figures, minimum contract length, opening hours and the Google review link are **managed by the client in the admin Configuration tab** (no code change needed) |
 | 12/11/2026 | Client supplied a team photo and 8 illustrative photos (now in `public/images/photos`); the existing raster logo was redrawn as an SVG mark (`public/images/brand/logo-mark.svg`) |
+| 18/11/2026 | Client supplied the official logo; the mark is now cropped from it as a transparent PNG (`public/images/brand/logo-mark.png`, also `logo.png`, `src/app/icon.png`, `apple-icon.png`), replacing the SVG redraw |
 | 12/11/2026 | Quote requests are a **read-only inbox** in the admin: no confirm/cancel workflow; the team contacts the prospect by phone/e-mail. Only "mark unread", CSV export and RGPD deletion |

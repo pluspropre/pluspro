@@ -74,7 +74,7 @@ pluspro/
 │  │  ├─ not-found.tsx  error.tsx  global-error.tsx
 │  │  ├─ sitemap.ts  robots.ts  manifest.ts
 │  │  ├─ opengraph-image.tsx     # default OG image (next/og)
-│  │  ├─ icon.svg  apple-icon.png
+│  │  ├─ icon.png  apple-icon.png
 │  │  └─ globals.css             # Tailwind import + @theme tokens + effect CSS
 │  ├─ components/
 │  │  ├─ ui/                     # Button, ArrowIcon, Eyebrow, SectionHeading, Badge, Chip, Field, Select, Stars, Media…
