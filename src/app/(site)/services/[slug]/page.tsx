@@ -65,7 +65,7 @@ export default async function ServicePage({ params }: PageProps<'/services/[slug
       />
       <PageHero
         crumbs={crumbs}
-        eyebrow={s.group === 'secteur' ? 'Secteur · contrat régulier' : 'Prestation ponctuelle'}
+        eyebrow={s.group === 'secteur' ? 'Secteur · entretien régulier' : 'Prestation ponctuelle'}
         title={s.h1}
         intro={<p>{s.intro}</p>}
         actions={

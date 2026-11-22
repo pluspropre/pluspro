@@ -5,12 +5,12 @@ import type { FaqItem } from './types'
 
 const quote: FaqItem = {
   q: 'Comment obtenir un devis ?',
-  a: 'Remplissez le formulaire de la page Devis en quelques minutes ou appelez-nous au 07 65 55 11 11. Indiquez le type de locaux, la surface en m² et la fréquence souhaitée : vous recevez une proposition détaillée sous 24h. Le devis est gratuit et sans engagement. Pour un contrat régulier, nous convenons d’abord d’une visite sur place afin de chiffrer au plus juste.',
+  a: 'Remplissez le formulaire de la page Devis en quelques minutes ou appelez-nous au 07 65 55 11 11. Indiquez le type de locaux, la surface en m² et la fréquence souhaitée : vous recevez une proposition détaillée sous 24h. Le devis est gratuit et sans engagement. Pour un entretien régulier, nous convenons d’abord d’une visite sur place afin de chiffrer au plus juste.',
 }
 
 const visit: FaqItem = {
   q: 'Faites-vous une visite sur place ?',
-  a: 'Oui. Avant toute proposition pour un contrat régulier, nous nous déplaçons dans vos locaux, à Strasbourg ou dans l’Eurométropole, pour mesurer les surfaces, repérer les zones sensibles et définir les horaires d’intervention. Cette visite nous permet d’évaluer précisément vos besoins et d’établir un devis adapté à vos locaux sous 24h. Pour une prestation ponctuelle simple, une description accompagnée de quelques photos peut suffire.',
+  a: 'Oui. Avant toute proposition pour un entretien régulier, nous nous déplaçons dans vos locaux, à Strasbourg ou dans l’Eurométropole, pour mesurer les surfaces, repérer les zones sensibles et définir les horaires d’intervention. Cette visite nous permet d’évaluer précisément vos besoins et d’établir un devis adapté à vos locaux sous 24h. Pour une prestation ponctuelle simple, une description accompagnée de quelques photos peut suffire.',
 }
 
 const products: FaqItem = {

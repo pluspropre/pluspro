@@ -88,7 +88,7 @@ Sections and motion: `04` §5. Content notes:
 ### 4.2 Services hub `/services`
 
 - H1 "Nos services de nettoyage à Strasbourg"; intro 2–3 sentences.
-- Section **Secteurs** (6 cards, contrat régulier) and **Prestations ponctuelles** (3 cards) — card = photo/placeholder,
+- Section **Secteurs** (6 cards, entretien régulier) and **Prestations ponctuelles** (3 cards) — card = photo/placeholder,
   title, one-liner, link.
 - "Comment ça se passe" (reuse Process), reviews strip, FAQ (general), final CTA.
 
