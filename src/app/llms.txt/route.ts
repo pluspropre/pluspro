@@ -12,7 +12,7 @@ ${site.name} (${site.legalName}, SIRET ${site.siretDisplay}) est une entreprise 
 
 Contact : ${site.phone.display} · ${site.email}
 
-## Secteurs (contrats réguliers)
+## Secteurs (entretien régulier)
 ${secteurs.map(line).join('\n')}
 
 ## Prestations ponctuelles

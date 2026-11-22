@@ -128,7 +128,7 @@ export function SettingsForm({ initial }: { initial: SiteSettings }) {
           maxLength={400}
           value={contract}
           onChange={(e) => setContract(e.target.value)}
-          placeholder="ex. Nos contrats réguliers sont conclus pour 3 mois minimum, puis résiliables avec un préavis d’un mois."
+          placeholder="ex. L’entretien régulier est conclu pour 3 mois minimum, puis résiliable avec un préavis d’un mois."
         />
         <p className="form-hint">Laissé vide, la FAQ indique que la durée et le préavis sont précisés dans chaque devis.</p>
       </Panel>

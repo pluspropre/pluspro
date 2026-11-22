@@ -34,6 +34,8 @@ In `next.config.ts`:
 async redirects() {
   return [
     { source: '/contact', destination: '/devis', permanent: true },
+    // old-site URL still indexed by Google (reported by the client, 22/11/2026)
+    { source: '/a-propos-de-nous', destination: '/a-propos', permanent: true },
     // safety nets for likely typed/legacy paths
     { source: '/services/:slug/', destination: '/services/:slug', permanent: true },
     { source: '/blog', destination: '/actualites', permanent: true },

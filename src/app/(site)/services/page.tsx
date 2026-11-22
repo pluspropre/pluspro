@@ -48,7 +48,7 @@ export default async function ServicesPage() {
         intro={
           <p>
             +Propre entretient les locaux des professionnels et des particuliers à Strasbourg et dans l’Eurométropole&nbsp;:
-            contrats réguliers pour les bureaux, cabinets médicaux, commerces ou copropriétés, et interventions ponctuelles
+            entretien régulier pour les bureaux, cabinets médicaux, commerces ou copropriétés, et interventions ponctuelles
             pour une fin de bail, une vente ou une fin de chantier. Chaque prestation suit un protocole écrit, et votre
             devis vous parvient sous 24h.
           </p>
@@ -66,7 +66,7 @@ export default async function ServicesPage() {
       <section className="sec" id="secteurs" aria-labelledby="t-secteurs">
         <div className="wrap">
           <SectionHeading
-            eyebrow="Contrats réguliers"
+            eyebrow="Entretien régulier"
             id="t-secteurs"
             title={
               <>
