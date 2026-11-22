@@ -59,6 +59,8 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: '/contact', destination: '/devis', permanent: true },
+      // old-site URL still indexed by search engines
+      { source: '/a-propos-de-nous', destination: '/a-propos', permanent: true },
       { source: '/blog', destination: '/actualites', permanent: true },
       { source: '/blog/:slug', destination: '/actualites/:slug', permanent: true },
     ]
