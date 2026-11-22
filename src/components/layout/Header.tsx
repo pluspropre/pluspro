@@ -187,7 +187,7 @@ export function Header() {
                   </button>
                   <div className="mega" id="mega-services" ref={megaRef} hidden={!megaOpen}>
                     <div>
-                      <h2>Secteurs · contrats réguliers</h2>
+                      <h2>Secteurs · entretien régulier</h2>
                       {secteurs.map((s) => (
                         <Link key={s.slug} href={`/services/${s.slug}`}>
                           <strong>{s.name}</strong>

@@ -10,8 +10,8 @@ function filled(value: string | null | undefined): string | null {
 }
 
 export function getMentionsLegales(p: LegalParams): LegalDoc {
-  const legalForm = filled(p.legalForm) ?? '[À COMPLÉTER : forme juridique et capital social]'
-  const director = filled(p.publicationDirector) ?? '[À COMPLÉTER : directeur de la publication]'
+  const legalForm = filled(p.legalForm) ?? 'SASU au capital social de 1\u00a0€'
+  const director = filled(p.publicationDirector) ?? 'Heddi Nouralieva'
 
   return {
     title: 'Mentions légales',
@@ -45,7 +45,7 @@ export function getMentionsLegales(p: LegalParams): LegalDoc {
         blocks: [
           {
             type: 'p',
-            text: `Le directeur de la publication est ${director}. Il peut être contacté à l’adresse contact@plus-propre.fr ou par courrier au siège de +Propre.`,
+            text: `Directeur de la publication\u00a0: ${director}, joignable à l’adresse contact@plus-propre.fr ou par courrier au siège de +Propre.`,
           },
         ],
       },
