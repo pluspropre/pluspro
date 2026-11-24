@@ -2,9 +2,9 @@
 import type { LegalDoc, LegalParams } from './types'
 
 /** Stored with each quote request (`consent_version`); bump it whenever this policy changes materially. */
-export const PRIVACY_VERSION = '2026-11-v1'
+export const PRIVACY_VERSION = '2026-11-v2'
 
-const LAST_UPDATED = '2026-11-12'
+const LAST_UPDATED = '2026-11-24'
 
 /** Returns the trimmed value, or null when the admin left the field empty. */
 function filled(value: string | null | undefined): string | null {
@@ -110,7 +110,7 @@ export function getPolitiqueConfidentialite(p: LegalParams): LegalDoc {
           },
           {
             type: 'p',
-            text: 'Vos données ne font l’objet d’aucune décision automatisée ni d’aucun profilage. Elles ne sont jamais vendues ni utilisées à des fins publicitaires.',
+            text: 'Les coordonnées et les informations saisies dans votre demande de devis ne sont pas transmises à Google Ads. Elles ne font l’objet d’aucune décision automatisée et ne sont jamais vendues.',
           },
         ],
       },
@@ -143,7 +143,7 @@ export function getPolitiqueConfidentialite(p: LegalParams): LegalDoc {
         blocks: [
           {
             type: 'p',
-            text: 'La base de données du site est hébergée dans l’Union européenne (région Paris). Vercel, Resend et Cloudflare sont des sociétés établies aux États-Unis\u00a0: certaines données peuvent donc être traitées hors de l’Union européenne. Ces transferts sont encadrés par le cadre de protection des données UE–États-Unis (Data Privacy Framework) lorsque le prestataire y adhère et/ou par les clauses contractuelles types adoptées par la Commission européenne.',
+            text: 'La base de données du site est hébergée dans l’Union européenne (région Paris). Vercel, Resend, Cloudflare et Google sont des sociétés établies aux États-Unis\u00a0: certaines données peuvent donc être traitées hors de l’Union européenne. Ces transferts sont encadrés par le cadre de protection des données UE–États-Unis (Data Privacy Framework) lorsque le prestataire y adhère et/ou par les clauses contractuelles types adoptées par la Commission européenne.',
           },
         ],
       },
@@ -197,7 +197,7 @@ export function getPolitiqueConfidentialite(p: LegalParams): LegalDoc {
         blocks: [
           {
             type: 'p',
-            text: 'Un cookie est un petit fichier déposé sur votre appareil lors de la consultation d’un site. Le site www.plus-propre.fr n’utilise aucun cookie publicitaire. Voici la liste des cookies et traceurs utilisés\u00a0:',
+            text: 'Un cookie est un petit fichier déposé sur votre appareil lors de la consultation d’un site. Le site www.plus-propre.fr utilise, avec votre consentement, des traceurs de mesure publicitaire Google Ads. Voici la liste des cookies et traceurs utilisés\u00a0:',
           },
           {
             type: 'table',
@@ -228,6 +228,12 @@ export function getPolitiqueConfidentialite(p: LegalParams): LegalDoc {
                 'Non (mesure anonyme exemptée)',
               ],
               [
+                'Google Ads (notamment _gcl_aw)',
+                'Mesurer les demandes de devis attribuées à nos annonces Google Ads, sans transmettre les coordonnées du formulaire',
+                'Selon la politique de Google (cookie _gcl_aw : 90 jours)',
+                'Oui (catégorie Mesure publicitaire)',
+              ],
+              [
                 'Google Maps (page À propos)',
                 'Afficher la carte de notre zone d’intervention',
                 'Selon la politique de Google',
@@ -237,7 +243,7 @@ export function getPolitiqueConfidentialite(p: LegalParams): LegalDoc {
           },
           {
             type: 'p',
-            text: 'Les contenus externes, comme la carte Google Maps, ne sont chargés qu’avec votre accord\u00a0: tant que vous ne l’avez pas donné, un simple encadré s’affiche à leur place. Si d’autres contenus externes (vidéos, publications Instagram) sont ajoutés au site, ils relèveront de la même catégorie et suivront la même règle.',
+            text: 'La balise Google Ads n’est chargée qu’après votre accord pour la mesure publicitaire. Google reçoit des données techniques de navigation et les événements de conversion pour attribuer les demandes aux annonces, sans transmission des données saisies dans le formulaire. Vous pouvez consulter la politique de confidentialité de Google sur policies.google.com/privacy. Les contenus externes, comme la carte Google Maps, ne sont chargés qu’avec votre accord\u00a0: tant que vous ne l’avez pas donné, un simple encadré s’affiche à leur place. Si d’autres contenus externes (vidéos, publications Instagram) sont ajoutés au site, ils relèveront de la même catégorie et suivront la même règle.',
           },
           {
             type: 'p',
@@ -265,7 +271,7 @@ export function getPolitiqueConfidentialite(p: LegalParams): LegalDoc {
           },
           {
             type: 'p',
-            text: `Version en vigueur\u00a0: ${PRIVACY_VERSION}, mise à jour le 12\u00a0novembre 2026.`,
+            text: `Version en vigueur\u00a0: ${PRIVACY_VERSION}, mise à jour le 24\u00a0novembre 2026.`,
           },
         ],
       },
