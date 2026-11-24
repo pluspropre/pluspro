@@ -11,6 +11,7 @@ import { publicEnv } from '@/lib/env'
 import { frequencyOptions, ONE_OFF_TYPES, quoteSchema, typeValues, type QuoteInput } from '@/lib/validation/quote'
 import { cn } from '@/lib/utils'
 import { submitQuote } from '@/app/(site)/devis/actions'
+import { trackGoogleAdsConversion } from '@/lib/googleAds'
 import { Button } from '@/components/ui/Button'
 import { ArrowLeft } from '@/components/ui/icons'
 
@@ -209,6 +210,7 @@ export function QuoteWizard({ prefill = {} }: { prefill?: FormValues }) {
           /* ignore */
         }
         track('quote_submitted', { type: values.type ?? 'autre' })
+        trackGoogleAdsConversion()
         router.push('/devis/merci')
         return
       }
@@ -240,11 +242,14 @@ export function QuoteWizard({ prefill = {} }: { prefill?: FormValues }) {
     <form id="quote-form" noValidate onSubmit={handleSubmit(onSubmit, onInvalid)} className="card p-6 md:p-10">
       {/* progress */}
       <div>
-        <p className="text-[14px] font-semibold text-label" aria-live="polite">
+        <p className="text-label text-[14px] font-semibold" aria-live="polite">
           Étape {step + 1} sur 3 · {stepTitles[step]}
         </p>
-        <div className="mt-3 h-2 overflow-hidden rounded-full bg-surface-2" aria-hidden>
-          <div className="h-full rounded-full bg-teal transition-[width] duration-700" style={{ width: `${((step + 1) / 3) * 100}%` }} />
+        <div className="bg-surface-2 mt-3 h-2 overflow-hidden rounded-full" aria-hidden>
+          <div
+            className="bg-teal h-full rounded-full transition-[width] duration-700"
+            style={{ width: `${((step + 1) / 3) * 100}%` }}
+          />
         </div>
       </div>
 
@@ -253,8 +258,15 @@ export function QuoteWizard({ prefill = {} }: { prefill?: FormValues }) {
       </h2>
 
       {stepErrors.length > 0 ? (
-        <div ref={summaryRef} tabIndex={-1} role="alert" className="mt-6 rounded-2xl border border-danger/30 bg-[#fff6f5] p-5 outline-none">
-          <p className="font-semibold text-danger">Merci de corriger {stepErrors.length > 1 ? 'les champs suivants' : 'le champ suivant'}&nbsp;:</p>
+        <div
+          ref={summaryRef}
+          tabIndex={-1}
+          role="alert"
+          className="border-danger/30 mt-6 rounded-2xl border bg-[#fff6f5] p-5 outline-none"
+        >
+          <p className="text-danger font-semibold">
+            Merci de corriger {stepErrors.length > 1 ? 'les champs suivants' : 'le champ suivant'}&nbsp;:
+          </p>
           <ul className="mt-2 list-disc pl-5 text-[15px]">
             {stepErrors.map(([f, m]) => (
               <li key={f}>
@@ -315,7 +327,15 @@ export function QuoteWizard({ prefill = {} }: { prefill?: FormValues }) {
           <label className="form-label" htmlFor="f-surface">
             Surface (m²)
           </label>
-          <input id="f-surface" className="input" inputMode="numeric" placeholder="ex. 250" aria-required {...register('surface')} {...a('surface')} />
+          <input
+            id="f-surface"
+            className="input"
+            inputMode="numeric"
+            placeholder="ex. 250"
+            aria-required
+            {...register('surface')}
+            {...a('surface')}
+          />
           <Err id="surface-err" msg={errors.surface?.message} />
         </div>
         {oneOff ? (
@@ -339,7 +359,15 @@ export function QuoteWizard({ prefill = {} }: { prefill?: FormValues }) {
             <label className="form-label" htmlFor="f-postalCode">
               Code postal
             </label>
-            <input id="f-postalCode" className="input" inputMode="numeric" autoComplete="postal-code" maxLength={5} {...register('postalCode')} {...a('postalCode')} />
+            <input
+              id="f-postalCode"
+              className="input"
+              inputMode="numeric"
+              autoComplete="postal-code"
+              maxLength={5}
+              {...register('postalCode')}
+              {...a('postalCode')}
+            />
             <Err id="postalCode-err" msg={errors.postalCode?.message} />
           </div>
           <div>
@@ -350,8 +378,8 @@ export function QuoteWizard({ prefill = {} }: { prefill?: FormValues }) {
             <Err id="city-err" msg={errors.city?.message} />
           </div>
         </div>
-        <details className="rounded-2xl border border-line p-5">
-          <summary className="cursor-pointer font-semibold text-ink">Préciser vos locaux (facultatif)</summary>
+        <details className="border-line rounded-2xl border p-5">
+          <summary className="text-ink cursor-pointer font-semibold">Préciser vos locaux (facultatif)</summary>
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
             {(
               [
@@ -392,13 +420,13 @@ export function QuoteWizard({ prefill = {} }: { prefill?: FormValues }) {
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label className="form-label" htmlFor="f-company">
-                Société <span className="font-normal text-label">(facultatif)</span>
+                Société <span className="text-label font-normal">(facultatif)</span>
               </label>
               <input id="f-company" className="input" autoComplete="organization" {...register('company')} />
             </div>
             <div>
               <label className="form-label" htmlFor="f-jobTitle">
-                Fonction <span className="font-normal text-label">(facultatif)</span>
+                Fonction <span className="text-label font-normal">(facultatif)</span>
               </label>
               <input id="f-jobTitle" className="input" autoComplete="organization-title" {...register('jobTitle')} />
             </div>
@@ -409,28 +437,49 @@ export function QuoteWizard({ prefill = {} }: { prefill?: FormValues }) {
             <label className="form-label" htmlFor="f-email">
               E-mail
             </label>
-            <input id="f-email" type="email" className="input" autoComplete="email" {...register('email')} {...a('email')} />
+            <input
+              id="f-email"
+              type="email"
+              className="input"
+              autoComplete="email"
+              {...register('email')}
+              {...a('email')}
+            />
             <Err id="email-err" msg={errors.email?.message} />
           </div>
           <div>
             <label className="form-label" htmlFor="f-phone">
               Téléphone
             </label>
-            <input id="f-phone" type="tel" className="input" autoComplete="tel" {...register('phone')} {...a('phone')} />
+            <input
+              id="f-phone"
+              type="tel"
+              className="input"
+              autoComplete="tel"
+              {...register('phone')}
+              {...a('phone')}
+            />
             <Err id="phone-err" msg={errors.phone?.message} />
           </div>
         </div>
         <div>
           <label className="form-label" htmlFor="f-address">
-            Adresse des locaux <span className="font-normal text-label">(facultatif)</span>
+            Adresse des locaux <span className="text-label font-normal">(facultatif)</span>
           </label>
           <input id="f-address" className="input" autoComplete="street-address" {...register('address')} />
         </div>
         <div>
           <label className="form-label" htmlFor="f-message">
-            Message <span className="font-normal text-label">(facultatif)</span>
+            Message <span className="text-label font-normal">(facultatif)</span>
           </label>
-          <textarea id="f-message" className="input" rows={4} placeholder="Horaires, contraintes d’accès, zones sensibles…" {...register('message')} {...a('message')} />
+          <textarea
+            id="f-message"
+            className="input"
+            rows={4}
+            placeholder="Horaires, contraintes d’accès, zones sensibles…"
+            {...register('message')}
+            {...a('message')}
+          />
           <Err id="message-err" msg={errors.message?.message} />
         </div>
         {/* honeypot: hidden from people and assistive tech */}
@@ -440,10 +489,16 @@ export function QuoteWizard({ prefill = {} }: { prefill?: FormValues }) {
         </div>
         <div>
           <label className="flex items-start gap-3 text-[15px] leading-relaxed" htmlFor="f-consent">
-            <input id="f-consent" type="checkbox" className="mt-1 size-5 shrink-0 accent-[#0F766E]" {...register('consent')} {...a('consent')} />
+            <input
+              id="f-consent"
+              type="checkbox"
+              className="mt-1 size-5 shrink-0 accent-[#0F766E]"
+              {...register('consent')}
+              {...a('consent')}
+            />
             <span>
-              J’accepte que +Propre utilise ces informations pour traiter ma demande de devis et me recontacter. En savoir
-              plus dans notre{' '}
+              J’accepte que +Propre utilise ces informations pour traiter ma demande de devis et me recontacter. En
+              savoir plus dans notre{' '}
               <Link className="link" href="/politique-de-confidentialite" target="_blank">
                 politique de confidentialité
               </Link>
@@ -456,10 +511,10 @@ export function QuoteWizard({ prefill = {} }: { prefill?: FormValues }) {
       </div>
 
       {serverError ? (
-        <p role="alert" className="mt-6 rounded-2xl bg-[#fff6f5] p-4 font-semibold text-danger">
+        <p role="alert" className="text-danger mt-6 rounded-2xl bg-[#fff6f5] p-4 font-semibold">
           {serverError}
           <br />
-          <span className="font-normal text-ink">Besoin d’aide&nbsp;? </span>
+          <span className="text-ink font-normal">Besoin d’aide&nbsp;? </span>
           <a className="underline" href={`tel:${site.phone.e164}`}>
             {site.phone.display}
           </a>
@@ -487,7 +542,7 @@ export function QuoteWizard({ prefill = {} }: { prefill?: FormValues }) {
         )}
       </div>
       {step === 2 ? (
-        <p className="mt-6 text-[13px] leading-relaxed text-label">
+        <p className="text-label mt-6 text-[13px] leading-relaxed">
           Vos données sont traitées par +Propre pour répondre à votre demande de devis et vous recontacter. Elles sont
           conservées 3 ans au plus et ne sont jamais cédées. Vous pouvez exercer vos droits d’accès, de rectification et
           d’effacement à {site.email}.{' '}
